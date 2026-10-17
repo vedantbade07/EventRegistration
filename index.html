@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>College Event Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+                /* ===== RESET & BASE ===== */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #250e0e, #302b63, #170a12);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 16px 60px;
+            color: #fff;
+        }
+
+        /* ===== TOP HEADER ===== */
+        .top-header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeDown 0.7s ease both;
+        }
+
+        .college-logo {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 14px;
+            box-shadow: 0 8px 32px rgba(102,126,234,0.4);
+        }
+
+        .college-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #a78bfa;
+            margin-bottom: 6px;
+        }
+
+        .page-title {
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title span {
+            background: linear-gradient(90deg, #667eea, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-sub {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.45);
+            font-weight: 300;
+        }
+
+        /* ===== FORM CARD ===== */
+        .form-card {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 20px;
+        padding: 40px;
+        width: 100%;
+        max-width: 640px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        animation: fadeUp 0.7s ease both;
+        }
+
+        @media (max-width: 480px) {
+        .form-card { padding: 24px 20px; }
+        }
+
+        /* ===== SECTION HEADING ===== */
+        .sec-heading {
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #818cf8;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        /* ===== FORM GRID ===== */
+        .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 28px;
+        }
+
+        @media (max-width: 500px) {
+        .form-grid { grid-template-columns: 1fr; }
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 7px; }
+        .form-group.full { grid-column: 1 / -1; }
+
+        /* ===== LABELS ===== */
+        label {
+        font-size: 0.73rem;
+        font-weight: 500;
+        color: rgba(255,255,255,0.6);
+        letter-spacing: 0.03em;
+        }
+
+        label .req { color: #f87171; margin-left: 2px; }
+
+        /* ===== INPUTS & SELECT ===== */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.88rem;
+        font-weight: 400;
+        padding: 12px 15px;
+        width: 100%;
+        outline: none;
+        transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+        appearance: none;
+        -webkit-appearance: none;
+        }
+
+        input::placeholder { color: rgba(255,255,255,0.25); }
+
+        input:focus, select:focus {
+        border-color: #818cf8;
+        background: rgba(129,140,248,0.1);
+        box-shadow: 0 0 0 3px rgba(129,140,248,0.15);
+        }
+
+        select { cursor: pointer; }
+        select option { background: #302b63; color: #fff; }
+
+        /* ===== EVENT CHECKBOXES ===== */
+        .events-label {
+        font-size: 0.73rem;
+        font-weight: 500;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 12px;
+        }
+
+        .events-label .req { color: #f87171; }
+
+        .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+        gap: 10px;
+        margin-bottom: 28px;
+        }
+
+        .event-item { position: relative; }
+
+        .event-item input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        }
+
+        .event-item label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 12px 14px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: rgba(255,255,255,0.5);
+        transition: all 0.2s;
+        user-select: none;
+        }
+
+        .event-item label .ev-icon { font-size: 1.1rem; }
+
+        .event-item input:checked + label {
+        border-color: #818cf8;
+        background: rgba(129,140,248,0.15);
+        color: #fff;
+        box-shadow: 0 0 0 1px rgba(129,140,248,0.3);
+        }
+
+        .event-item label:hover {
+        border-color: rgba(129,140,248,0.5);
+        color: rgba(255,255,255,0.85);
+        }
+
+        /* ===== SUBMIT BUTTON ===== */
+        .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 6px 24px rgba(102,126,234,0.4);
+        }
+
+        .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 32px rgba(102,126,234,0.55);
+        }
+
+        .btn-submit:active { transform: translateY(0); }
+
+        /* ===== ERROR MESSAGE ===== */
+        .error-msg {
+        display: none;
+        font-size: 0.78rem;
+        color: #fca5a5;
+        background: rgba(239,68,68,0.1);
+        border: 1px solid rgba(239,68,68,0.25);
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin-top: 14px;
+        text-align: center;
+        }
+
+        /* ===== SUCCESS SCREEN ===== */
+        .success-box {
+        display: none;
+        text-align: center;
+        padding: 20px 10px;
+        animation: fadeUp 0.5s ease both;
+        }
+
+        .success-icon {
+        width: 72px;
+        height: 72px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 18px;
+        box-shadow: 0 0 40px rgba(16,185,129,0.35);
+        }
+
+        .success-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        }
+
+        .success-sub {
+        font-size: 0.88rem;
+        color: rgba(255,255,255,0.5);
+        line-height: 1.7;
+        max-width: 360px;
+        margin: 0 auto;
+        }
+
+        .success-detail {
+        margin-top: 22px;
+        background: rgba(16,185,129,0.07);
+        border: 1px solid rgba(16,185,129,0.2);
+        border-radius: 12px;
+        padding: 18px 20px;
+        text-align: left;
+        }
+
+        .success-detail .row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.82rem;
+        padding: 7px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        color: rgba(255,255,255,0.55);
+        }
+
+        .success-detail .row:last-child { border-bottom: none; }
+        .success-detail .row strong { color: #fff; font-weight: 600; }
+
+        /* ===== FOOTER ===== */
+        .footer-note {
+        margin-top: 20px;
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.3);
+        text-align: center;
+        }
+
+        .footer-note span { color: #818cf8; }
+
+        .made-by {
+        margin-top: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 100px;
+        padding: 8px 18px;
+        font-size: 0.68rem;
+        font-weight: 500;
+        color: rgba(255,255,255,0.35);
+        letter-spacing: 0.05em;
+        }
+
+        .made-by .dot {
+        width: 6px;
+        height: 6px;
+        background: #818cf8;
+        border-radius: 50%;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+        }
+
+
+        </style>
+        
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div class="top-header">
+        <div class="college-logo">🎓</div>
+        <div class="college-name">College Event Registration</div>
+        <h1 class="page-title">Event <span>Registration</span></h1>
+        <p class="page-sub">Fill in your details and choose the events you want to join.</p>
+    </div>
+
+    <!-- ===== FORM CARD ===== -->
+    <div class="form-card">
+
+        <!-- FORM -->
+        <div id="form-section">
+
+        <!-- Personal Info -->
+        <div class="sec-heading">👤 Personal Information</div>
+        <div class="form-grid">
+
+            <div class="form-group">
+            <label for="name">Full Name <span class="req">*</span></label>
+            <input type="text" id="name" placeholder="e.g. Vedant Bade" required />
+            </div>
+
+            <div class="form-group">
+            <label for="roll">Roll Number <span class="req">*</span></label>
+            <input type="text" id="roll" placeholder="e.g. SEA74" required />
+            </div>
+
+            <div class="form-group">
+            <label for="email">Email Address <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="you@college.edu.in" required />
+            </div>
+
+            <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="+91 98765 43210" />
+            </div>
+
+        </div>
+
+        <!-- Academic Info -->
+        <div class="sec-heading">🏫 Academic Details</div>
+        <div class="form-grid">
+
+            <div class="form-group">
+            <label for="branch">Branch <span class="req">*</span></label>
+            <select id="branch" required>
+                <option value="" disabled selected>Select branch</option>
+                <option value="CSE">Computer Science (CSE)</option>
+                <option value="CSE-AI">CSE – Artificial Intelligence</option>
+                <option value="CSE-DS">CSE – Data Science</option>
+                <option value="CSE-Cyber">CSE – Cyber Security</option>
+                <option value="IT">Information Technology (IT)</option>
+                <option value="ECE">Electronics & Communication</option>
+                <option value="MECH">Mechanical Engineering</option>
+                <option value="CIVIL">Civil Engineering</option>
+            </select>
+            </div>
+
+            <div class="form-group">
+            <label for="year">Year <span class="req">*</span></label>
+            <select id="year" required>
+                <option value="" disabled selected>Select year</option>
+                <option value="1st">1st Year</option>
+                <option value="2nd">2nd Year</option>
+                <option value="3rd">3rd Year</option>
+                <option value="4th">4th Year</option>
+            </select>
+            </div>
+
+            <div class="form-group">
+            <label for="division">Division / Section <span class="req">*</span></label>
+            <select id="division" required>
+                <option value="" disabled selected>Select division</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
+                <option>F</option>
+            </select>
+            </div>
+
+            <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="" disabled selected>Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Prefer not to say</option>
+            </select>
+            </div>
+
+        </div>
+
+        <!-- Tech Events -->
+        <div class="sec-heading">💻 Tech Events</div>
+        <p class="events-label">Choose one or more events <span class="req">*</span></p>
+        <div class="events-grid" style="margin-bottom:24px">
+
+            <div class="event-item">
+            <input type="checkbox" id="ev1" name="event" value="Hackathon">
+            <label for="ev1"><span class="ev-icon">⚡</span> Hackathon</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev2" name="event" value="Code Sprint">
+            <label for="ev2"><span class="ev-icon">💻</span> Code Sprint</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev3" name="event" value="Tech Quiz">
+            <label for="ev3"><span class="ev-icon">🧠</span> Tech Quiz</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev4" name="event" value="UI/UX Design">
+            <label for="ev4"><span class="ev-icon">🎨</span> UI/UX Design</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev5" name="event" value="Debugging">
+            <label for="ev5"><span class="ev-icon">🐛</span> Debugging</label>
+            </div>
+
+        </div>
+
+        <!-- Gaming Events -->
+        <div class="sec-heading">🎮 Gaming Events</div>
+        <div class="events-grid" style="margin-bottom:24px">
+
+            <div class="event-item">
+            <input type="checkbox" id="ev6" name="event" value="BGMI">
+            <label for="ev6"><span class="ev-icon">🔫</span> BGMI</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev7" name="event" value="Free Fire">
+            <label for="ev7"><span class="ev-icon">🔥</span> Free Fire</label>
+            </div>
+
+        </div>
+
+        <!-- Sports Events -->
+        <div class="sec-heading">🏅 Sports Events</div>
+        <div class="events-grid" style="margin-bottom:28px">
+
+            <div class="event-item">
+            <input type="checkbox" id="ev8" name="event" value="Cricket">
+            <label for="ev8"><span class="ev-icon">🏏</span> Cricket</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev9" name="event" value="Football">
+            <label for="ev9"><span class="ev-icon">⚽</span> Football</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev10" name="event" value="Badminton">
+            <label for="ev10"><span class="ev-icon">🏸</span> Badminton</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev11" name="event" value="Carrom">
+            <label for="ev11"><span class="ev-icon">🎯</span> Carrom</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev12" name="event" value="Chess">
+            <label for="ev12"><span class="ev-icon">♟️</span> Chess</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev13" name="event" value="Volleyball">
+            <label for="ev13"><span class="ev-icon">🏐</span> Volleyball</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev14" name="event" value="Table Tennis">
+            <label for="ev14"><span class="ev-icon">🏓</span> Table Tennis</label>
+            </div>
+
+            <div class="event-item">
+            <input type="checkbox" id="ev15" name="event" value="Kabaddi">
+            <label for="ev15"><span class="ev-icon">🤼</span> Kabaddi</label>
+            </div>
+
+        </div>
+
+        <!-- Submit -->
+        <button class="btn-submit" onclick="submitForm()">Register Now →</button>
+        <div class="error-msg" id="error-msg">⚠️ Please fill all required fields and select at least one event.</div>
+
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="success-box" id="success-box">
+        <div class="success-icon">✓</div>
+        <div class="success-title">You're Registered! 🎉</div>
+        <p class="success-sub">Your registration request has been submitted. Please keep these details for your records.</p>
+        <div class="success-detail" id="success-detail"></div>
+        </div>
+
+    </div>
+
+    <p class="footer-note">Questions? Contact your event coordinator.</p>
+    <div class="made-by"><span class="dot"></span> Made by 2nd Year CSE Students <span class="dot"></span></div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+
+        // Configure your deployed Google Apps Script Web App URL below.
+        // This URL is visible to anyone who can view this public website; do not put secrets here.
+        const SHEET_URL = "https://script.google.com/macros/s/AKfycbzqHFrUYGkaHXjkfsDYzDI6ZtDPIz3Bm2yw4VeFdtWBbmz2LF6jg6chVqAKWFNATSF-/exec";
+
+        function submitForm() {
+        const name   = document.getElementById('name').value.trim();
+        const roll   = document.getElementById('roll').value.trim();
+        const email  = document.getElementById('email').value.trim();
+        const phone  = document.getElementById('phone').value.trim();
+        const branch = document.getElementById('branch').value;
+        const year   = document.getElementById('year').value;
+        const division = document.getElementById('division').value;
+        const gender = document.getElementById('gender').value;
+        const events = [...document.querySelectorAll('input[name="event"]:checked')].map(e => e.value);
+        const errEl  = document.getElementById('error-msg');
+        const btn    = document.querySelector('.btn-submit');
+
+        // Validate required fields
+        if (!name || !roll || !email || !branch || !year || !division || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || events.length === 0) {
+            errEl.textContent = '⚠️ Please fill all required fields and select at least one event.';
+            errEl.style.display = 'block';
+            return;
+        }
+
+        errEl.style.display = 'none';
+
+        // Loading state
+        btn.textContent = 'Submitting...';
+        btn.disabled = true;
+
+        // Send to Google Sheets (no-cors fixes CORS block)
+        fetch(SHEET_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({ name, roll, email, phone, branch, year, division, gender, events: events.join(', ') })
+        })
+        .then(() => {
+            const detail = document.getElementById('success-detail');
+            detail.replaceChildren();
+            const rows = [
+                ['Name', name], ['Roll No.', roll], ['Email', email],
+                ['Phone', phone || '—'], ['Branch', branch], ['Year', year],
+                ['Division', division], ['Gender', gender || '—'], ['Events', events.join(', ')]
+            ];
+            rows.forEach(([label, value]) => {
+                const row = document.createElement('div');
+                row.className = 'row';
+                const labelEl = document.createElement('span');
+                labelEl.textContent = label;
+                const valueEl = document.createElement('strong');
+                valueEl.textContent = value;
+                row.append(labelEl, valueEl);
+                detail.appendChild(row);
+            });
+            document.getElementById('form-section').style.display = 'none';
+            document.getElementById('success-box').style.display  = 'block';
+        })
+        .catch(() => {
+            errEl.textContent = '❌ Submission failed. Check your internet and try again.';
+            errEl.style.display = 'block';
+            btn.textContent = 'Register Now →';
+            btn.disabled = false;
+        });
+        }
+    </script>
+
+</body>
+</html>
