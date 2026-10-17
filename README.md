@@ -1,4 +1,4 @@
-# College Event Registration
+# Event Registration
 
 A responsive college event registration webpage. Students can enter their personal and academic details, choose one or more technical, gaming, or sports events, and see a summary after submitting the registration request.
 
